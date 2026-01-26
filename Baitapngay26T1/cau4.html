@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <p>
+        <a id="somelink" type="text/html" hreflang="en-us" rel="nofollow" target="_self" 
+           href="http://www.google.com/">
+           Google Website
+        </a>
+    </p>
+    <button onclick="getAttributes()">Click here to get attributes value</button>
+
+    <script>
+        function getAttributes() {
+            // 1. Lấy phần tử link qua ID
+            var link = document.getElementById("somelink");
+
+            // 2. Lấy giá trị các thuộc tính
+            var href = link.href;
+            var hreflang = link.hreflang;
+            var rel = link.rel;
+            var target = link.target;
+
+            // 3. Hiển thị thông báo (hoặc in ra console)
+            alert("Href: " + href + 
+                  "\nHreflang: " + hreflang + 
+                  "\nRel: " + rel + 
+                  "\nTarget: " + target);
+        }
+    </script>
+</body>
+</html>

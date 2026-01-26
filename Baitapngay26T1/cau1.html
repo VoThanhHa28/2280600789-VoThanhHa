@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JS DOM paragraph style</title>
+</head>
+<body>
+    <p id='text'>JavaScript</p>
+    <div>
+        <button id="jsstyle" onclick="js_style()">Style</button>
+    </div>
+
+    <script>
+        function js_style() {
+            // 1. Lấy phần tử đoạn văn bản thông qua id 'text'
+            var paragraph = document.getElementById('text');
+
+            // 2. Thay đổi màu sắc (ví dụ: sang màu đỏ)
+            paragraph.style.color = "red";
+
+            // 3. Thay đổi kích thước chữ (ví dụ: lên 30px)
+            paragraph.style.fontSize = "30px";
+            
+            // Bạn cũng có thể đổi font hoặc các thuộc tính khác tại đây
+            paragraph.style.fontWeight = "bold";
+        }
+    </script>
+</body>
+</html>

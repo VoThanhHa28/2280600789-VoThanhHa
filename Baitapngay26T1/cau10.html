@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Window Size Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        #display {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 24px;
+            color: #1a73e8;
+        }
+    </style>
+</head>
+<body onload="getSize()">
+
+    <div id="display">
+        Đang tính toán kích thước...
+    </div>
+
+    <script>
+        function getSize() {
+            // Lấy chiều rộng và chiều cao của cửa sổ (viewport)
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+
+            // Hiển thị kết quả lên màn hình
+            document.getElementById('display').innerHTML = 
+                "Chiều rộng: <b>" + w + "px</b><br>" + 
+                "Chiều cao: <b>" + h + "px</b>";
+        }
+
+        // Đăng ký sự kiện: Mỗi khi cửa sổ bị resize, hàm getSize sẽ tự động chạy
+        window.onresize = getSize;
+    </script>
+</body>
+</html>
