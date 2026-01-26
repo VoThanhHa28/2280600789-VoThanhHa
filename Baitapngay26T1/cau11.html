@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AJAX - API - JSON</title>
+</head>
+<body>
+    <div id="ajax">
+        </div>
+    <input type="button" onclick="fetch_api()" value="fetch API">
+
+    <script>
+        function fetch_api() {
+            // Sử dụng JSONPlaceholder API để lấy danh sách bài post
+            // Chúng ta sẽ lấy 3 bài đầu tiên để trích xuất text
+            const url = 'https://jsonplaceholder.typicode.com/posts?_limit=3';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const displayDiv = document.getElementById('ajax');
+                    
+                    // Xóa nội dung cũ trước khi chèn mới
+                    displayDiv.innerHTML = "";
+
+                    // Duyệt qua dữ liệu trả về và lấy thuộc tính 'body' (thay cho 'text')
+                    data.forEach((post, index) => {
+                        const p = document.createElement('p');
+                        p.innerHTML = `<b>Đoạn ${index + 1}:</b> ${post.body}`;
+                        displayDiv.appendChild(p);
+                    });
+                })
+                .catch(error => {
+                    console.error('Lỗi khi gọi API:', error);
+                    alert("Không thể tải dữ liệu từ API.");
+                });
+        }
+    </script>
+</body>
+</html>
