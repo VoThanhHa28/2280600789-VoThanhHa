@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quản Lý Sinh Viên</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <!-- Fire Background Animation -->
+        <div class="fire-background">
+            <div class="flame flame-1"></div>
+            <div class="flame flame-2"></div>
+            <div class="flame flame-3"></div>
+            <div class="flame flame-4"></div>
+            <div class="flame flame-5"></div>
+            <div class="flame flame-6"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <span class="fire-icon">🔥</span>
+                    <h1>Hệ Thống Quản Lý Sinh Viên</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#" class="nav-link">Trang chủ</a>
+                    <a href="#" class="nav-link">Danh sách</a>
+                    <a href="#" class="nav-link">Thêm mới</a>
+                    <a href="#" class="nav-link">Giới thiệu</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content - New Layout -->
+        <main class="main">
+            <div class="container">
+                <!-- Grid Layout: 2 columns -->
+                <div class="grid-layout">
+                    <!-- Left Column -->
+                    <div class="left-column">
+                        <!-- Search Section -->
+                        <section class="card">
+                            <div class="card-header">
+                                <h2>🔍 Tìm Kiếm Sinh Viên</h2>
+                            </div>
+                            <div class="card-body">
+                                <input type="text" placeholder="Nhập tên hoặc mã sinh viên..." class="input" />
+                                <button class="btn btn-search">Tìm kiếm</button>
+                            </div>
+                        </section>
+
+                        <!-- Add Student Form -->
+                        <section class="card">
+                            <div class="card-header">
+                                <h2>➕ Thêm Sinh Viên Mới</h2>
+                            </div>
+                            <div class="card-body">
+                                <form class="form">
+                                    <div class="input-group">
+                                        <label>Mã sinh viên</label>
+                                        <input type="text" class="input" placeholder="VD: SV001" />
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Họ và tên</label>
+                                        <input type="text" class="input" placeholder="Nhập họ tên" />
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Email</label>
+                                        <input type="email" class="input" placeholder="email@example.com" />
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Lớp</label>
+                                        <input type="text" class="input" placeholder="VD: CNTT-K15" />
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Số điện thoại</label>
+                                        <input type="tel" class="input" placeholder="0123456789" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Thêm sinh viên</button>
+                                </form>
+                            </div>
+                        </section>
+
+                        <!-- Stats Card -->
+                        <section class="card stats-card">
+                            <div class="card-header">
+                                <h2>📊 Thống Kê</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-number">150</div>
+                                        <div class="stat-label">Tổng sinh viên</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">12</div>
+                                        <div class="stat-label">Lớp học</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="right-column">
+                        <!-- Student List -->
+                        <section class="card student-list-card">
+                            <div class="card-header">
+                                <h2>📋 Danh Sách Sinh Viên</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-wrapper">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Mã SV</th>
+                                                <th>Họ và tên</th>
+                                                <th>Email</th>
+                                                <th>Lớp</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>SV001</td>
+                                                <td>Nguyễn Văn A</td>
+                                                <td>nva@email.com</td>
+                                                <td>CNTT-K15</td>
+                                                <td class="action-cell">
+                                                    <button class="btn-icon btn-edit" title="Sửa">✏️</button>
+                                                    <button class="btn-icon btn-delete" title="Xóa">🗑️</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>SV002</td>
+                                                <td>Trần Thị B</td>
+                                                <td>ttb@email.com</td>
+                                                <td>CNTT-K15</td>
+                                                <td class="action-cell">
+                                                    <button class="btn-icon btn-edit" title="Sửa">✏️</button>
+                                                    <button class="btn-icon btn-delete" title="Xóa">🗑️</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>SV003</td>
+                                                <td>Lê Văn C</td>
+                                                <td>lvc@email.com</td>
+                                                <td>KTPM-K14</td>
+                                                <td class="action-cell">
+                                                    <button class="btn-icon btn-edit" title="Sửa">✏️</button>
+                                                    <button class="btn-icon btn-delete" title="Xóa">🗑️</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>SV004</td>
+                                                <td>Phạm Thị D</td>
+                                                <td>ptd@email.com</td>
+                                                <td>CNTT-K16</td>
+                                                <td class="action-cell">
+                                                    <button class="btn-icon btn-edit" title="Sửa">✏️</button>
+                                                    <button class="btn-icon btn-delete" title="Xóa">🗑️</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>SV005</td>
+                                                <td>Hoàng Văn E</td>
+                                                <td>hve@email.com</td>
+                                                <td>KTPM-K14</td>
+                                                <td class="action-cell">
+                                                    <button class="btn-icon btn-edit" title="Sửa">✏️</button>
+                                                    <button class="btn-icon btn-delete" title="Xóa">🗑️</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>SV006</td>
+                                                <td>Đỗ Thị F</td>
+                                                <td>dtf@email.com</td>
+                                                <td>CNTT-K15</td>
+                                                <td class="action-cell">
+                                                    <button class="btn-icon btn-edit" title="Sửa">✏️</button>
+                                                    <button class="btn-icon btn-delete" title="Xóa">🗑️</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h3>🔥 Về chúng tôi</h3>
+                        <p>Hệ thống quản lý sinh viên hiện đại</p>
+                        <p>Nhanh chóng - Hiệu quả - Chính xác</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>📞 Liên hệ</h3>
+                        <p>Email: support@qlsv.edu.vn</p>
+                        <p>Hotline: 0123 456 789</p>
+                        <p>Địa chỉ: 123 Đường ABC, TP.HCM</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>🔗 Liên kết nhanh</h3>
+                        <p><a href="#">Trang chủ</a></p>
+                        <p><a href="#">Hướng dẫn sử dụng</a></p>
+                        <p><a href="#">Chính sách bảo mật</a></p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Hệ Thống Quản Lý Sinh Viên. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
