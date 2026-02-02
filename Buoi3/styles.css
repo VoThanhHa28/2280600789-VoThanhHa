@@ -269,45 +269,6 @@ body {
     box-shadow: 0 5px 20px rgba(255, 69, 0, 0.5);
 }
 
-.btn-icon {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 5px;
-    transition: all 0.3s;
-}
-
-.btn-icon:hover {
-    transform: scale(1.2);
-}
-
-/* ===== STATS CARD ===== */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #ff4500 0%, #ff8c00 100%);
-    border-radius: 10px;
-    color: white;
-}
-
-.stat-number {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.stat-label {
-    font-size: 14px;
-    opacity: 0.9;
-}
-
 /* ===== TABLE STYLES ===== */
 .student-list-card {
     height: fit-content;
@@ -344,11 +305,6 @@ body {
 
 .table tbody tr:hover {
     background: rgba(255, 69, 0, 0.05);
-}
-
-.action-cell {
-    display: flex;
-    gap: 10px;
 }
 
 /* ===== FOOTER ===== */
@@ -438,10 +394,6 @@ body {
         gap: 20px;
     }
 
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
     .table {
         font-size: 12px;
     }
@@ -459,10 +411,5 @@ body {
 
     .card-body {
         padding: 15px;
-    }
-
-    .action-cell {
-        flex-direction: column;
-        gap: 5px;
     }
 }
