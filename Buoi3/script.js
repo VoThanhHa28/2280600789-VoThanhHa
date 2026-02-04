@@ -4,20 +4,22 @@ const STORAGE_KEY = "students";
 let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
 // ===== 02. HIỂN THỊ DANH SÁCH - Render bảng từ mảng JS =====
-function renderStudentList() {
+// listToRender: mảng sinh viên cần hiển thị (mặc định là toàn bộ students)
+function renderStudentList(listToRender) {
     const tbody = document.getElementById("student-list-tbody");
     if (!tbody) return;
 
+    const list = listToRender !== undefined ? listToRender : students;
     tbody.innerHTML = "";
 
-    if (students.length === 0) {
+    if (list.length === 0) {
         const tr = document.createElement("tr");
         tr.innerHTML = '<td colspan="5" style="text-align: center; padding: 30px; color: #999;">Chưa có sinh viên nào</td>';
         tbody.appendChild(tr);
         return;
     }
 
-    students.forEach(function (student, index) {
+    list.forEach(function (student, index) {
         const tr = document.createElement("tr");
         tr.innerHTML =
             "<td>" +
@@ -39,9 +41,43 @@ function renderStudentList() {
     });
 }
 
+// ===== 04. TÌM KIẾM - Tìm theo mã / tên / lớp =====
+function filterStudentsBySearch(keyword) {
+    const k = (keyword || "").trim().toLowerCase();
+    if (!k) return students;
+    return students.filter(function (s) {
+        return (
+            (s.id && s.id.toLowerCase().includes(k)) ||
+            (s.name && s.name.toLowerCase().includes(k)) ||
+            (s.className && s.className.toLowerCase().includes(k))
+        );
+    });
+}
+
+function runSearch() {
+    const searchInput = document.getElementById("search-input");
+    if (!searchInput) return;
+    const keyword = searchInput.value.trim();
+    const filtered = filterStudentsBySearch(keyword);
+    renderStudentList(filtered);
+}
+
 // Render lần đầu khi load trang
 document.addEventListener("DOMContentLoaded", function () {
     renderStudentList();
+
+    // Gắn sự kiện tìm kiếm: nút "Tìm kiếm" và phím Enter
+    var searchBtn = document.getElementById("search-btn");
+    var searchInput = document.getElementById("search-input");
+    if (searchBtn) searchBtn.addEventListener("click", runSearch);
+    if (searchInput) {
+        searchInput.addEventListener("keyup", function (e) {
+            if (e.key === "Enter") runSearch();
+        });
+        searchInput.addEventListener("input", function () {
+            runSearch();
+        });
+    }
 });
 
 const form = document.querySelector(".form");
@@ -106,6 +142,6 @@ form.addEventListener("submit", function (e) {
     alert("Thêm sinh viên thành công!");
     form.reset();
 
-    // Cập nhật lại bảng danh sách
-    renderStudentList();
+    // Cập nhật lại bảng danh sách (giữ kết quả tìm kiếm nếu đang có)
+    runSearch();
 });
