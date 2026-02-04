@@ -3,6 +3,47 @@ const STORAGE_KEY = "students";
 // Lấy dữ liệu từ localStorage
 let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
+// ===== 02. HIỂN THỊ DANH SÁCH - Render bảng từ mảng JS =====
+function renderStudentList() {
+    const tbody = document.getElementById("student-list-tbody");
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    if (students.length === 0) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = '<td colspan="5" style="text-align: center; padding: 30px; color: #999;">Chưa có sinh viên nào</td>';
+        tbody.appendChild(tr);
+        return;
+    }
+
+    students.forEach(function (student, index) {
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+            "<td>" +
+            (index + 1) +
+            "</td>" +
+            "<td>" +
+            student.id +
+            "</td>" +
+            "<td>" +
+            student.name +
+            "</td>" +
+            "<td>" +
+            student.email +
+            "</td>" +
+            "<td>" +
+            student.className +
+            "</td>";
+        tbody.appendChild(tr);
+    });
+}
+
+// Render lần đầu khi load trang
+document.addEventListener("DOMContentLoaded", function () {
+    renderStudentList();
+});
+
 const form = document.querySelector(".form");
 
 form.addEventListener("submit", function (e) {
@@ -65,5 +106,6 @@ form.addEventListener("submit", function (e) {
     alert("Thêm sinh viên thành công!");
     form.reset();
 
-    console.log(students);
+    // Cập nhật lại bảng danh sách
+    renderStudentList();
 });
