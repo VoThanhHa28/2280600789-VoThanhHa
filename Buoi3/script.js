@@ -1,7 +1,37 @@
 const STORAGE_KEY = "students";
+const THEME_KEY = "theme";
 
 // Lấy dữ liệu từ localStorage
 let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+// ===== DARK/LIGHT MODE TOGGLE =====
+function initTheme() {
+    const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+    document.body.classList.toggle("light-mode", savedTheme === "light");
+    updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+    const isLightMode = document.body.classList.contains("light-mode");
+    const newTheme = isLightMode ? "dark" : "light";
+    
+    document.body.classList.toggle("light-mode", newTheme === "light");
+    localStorage.setItem(THEME_KEY, newTheme);
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const themeIcon = document.querySelector(".theme-icon");
+    if (themeIcon) {
+        themeIcon.textContent = theme === "light" ? "🌙" : "☀️";
+    }
+}
+
+// Khởi tạo theme ngay khi script load (trước DOMContentLoaded để tránh flash)
+const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+if (document.body) {
+    document.body.classList.toggle("light-mode", savedTheme === "light");
+}
 
 // ===== 02. HIỂN THỊ DANH SÁCH - Render bảng từ mảng JS =====
 // listToRender: mảng sinh viên cần hiển thị (mặc định là toàn bộ students)
@@ -64,6 +94,9 @@ function runSearch() {
 
 // Render lần đầu khi load trang
 document.addEventListener("DOMContentLoaded", function () {
+    // Khởi tạo theme và cập nhật icon
+    initTheme();
+
     renderStudentList();
 
     // Gắn sự kiện tìm kiếm: nút "Tìm kiếm" và phím Enter
@@ -77,6 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
         searchInput.addEventListener("input", function () {
             runSearch();
         });
+    }
+
+    // Gắn sự kiện toggle theme
+    const themeToggle = document.getElementById("theme-toggle");
+    if (themeToggle) {
+        themeToggle.addEventListener("click", toggleTheme);
     }
 });
 
