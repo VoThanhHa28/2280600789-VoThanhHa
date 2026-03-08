@@ -1,12 +1,10 @@
-const STORAGE_KEY = "students";
+
+const STORAGE_KEY = "students"; //Thêm comment de conflict
 const THEME_KEY = "theme";
 
 // Lấy dữ liệu từ localStorage
-<<<<<<< HEAD
+
 let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-=======
-let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; // mảng mặc định
->>>>>>> feature-branch
 
 // ===== DARK/LIGHT MODE TOGGLE =====
 function initTheme() {
