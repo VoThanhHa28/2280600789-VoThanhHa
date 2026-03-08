@@ -54,6 +54,40 @@
                             </div>
                         </section>
 
+                        <!-- Filter + Sort -->
+                        <section class="card">
+                            <div class="card-header">
+                                <h2>🔽 Lọc & Sắp xếp</h2>
+                            </div>
+                            <div class="card-body filter-sort-body">
+                                <div class="filter-row">
+                                    <label>Lớp:</label>
+                                    <select id="filter-class" class="input">
+                                        <option value="">Tất cả lớp</option>
+                                    </select>
+                                </div>
+                                <div class="filter-row">
+                                    <label>Điểm từ:</label>
+                                    <input type="number" id="filter-score-min" class="input" placeholder="Min" min="0" max="10" step="0.01" />
+                                </div>
+                                <div class="filter-row">
+                                    <label>đến:</label>
+                                    <input type="number" id="filter-score-max" class="input" placeholder="Max" min="0" max="10" step="0.01" />
+                                </div>
+                                <div class="filter-row">
+                                    <label>Sắp xếp:</label>
+                                    <select id="sort-by" class="input">
+                                        <option value="">-- Chọn --</option>
+                                        <option value="name-asc">Tên A → Z</option>
+                                        <option value="name-desc">Tên Z → A</option>
+                                        <option value="score-asc">Điểm tăng dần</option>
+                                        <option value="score-desc">Điểm giảm dần</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-search" id="apply-filter-sort">Áp dụng</button>
+                            </div>
+                        </section>
+
                         <!-- Add Student Form -->
                         <section class="card">
                             <div class="card-header">
@@ -76,6 +110,10 @@
                                     <div class="input-group">
                                         <label>Lớp</label>
                                         <input type="text" class="input" placeholder="VD: CNTT-K15" />
+                                    </div>
+                                    <div class="input-group">
+                                        <label>Điểm</label>
+                                        <input type="number" class="input" placeholder="0–10" min="0" max="10" step="0.01" />
                                     </div>
                                     <div class="input-group">
                                         <label>Số điện thoại</label>
@@ -104,6 +142,7 @@
                                                 <th>Họ và tên</th>
                                                 <th>Email</th>
                                                 <th>Lớp</th>
+                                                <th>Điểm</th>
                                             </tr>
                                         </thead>
                                         <tbody id="student-list-tbody">
