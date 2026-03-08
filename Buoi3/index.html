@@ -7,8 +7,9 @@
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <!-- Fire Background Animation -->
-        <div class="fire-background">
+        <a href="#main-content" class="skip-link">Chuyển tới nội dung chính</a>
+        <!-- Fire Background Animation (decorative) -->
+        <div class="fire-background" aria-hidden="true">
             <div class="flame flame-1"></div>
             <div class="flame flame-2"></div>
             <div class="flame flame-3"></div>
@@ -24,64 +25,107 @@
                     <span class="fire-icon">🔥</span>
                     <h1>Hệ Thống Quản Lý Sinh Viên</h1>
                 </div>
-                <nav class="nav">
+                <nav class="nav" aria-label="Điều hướng chính">
                     <a href="#" class="nav-link">Trang chủ</a>
                     <a href="#" class="nav-link">Danh sách</a>
                     <a href="#" class="nav-link">Thêm mới</a>
                     <a href="#" class="nav-link">Giới thiệu</a>
-                    <button id="theme-toggle" class="theme-toggle" title="Chuyển đổi theme">
-                        <span class="theme-icon">🌙</span>
+                    <button id="theme-toggle" class="theme-toggle" type="button" title="Chuyển đổi theme (Ctrl+Shift+T)" aria-label="Chuyển đổi giao diện sáng hoặc tối">
+                        <span class="theme-icon" aria-hidden="true">🌙</span>
                     </button>
                 </nav>
             </div>
         </header>
 
         <!-- Main Content - New Layout -->
-        <main class="main">
+        <main id="main-content" class="main" role="main">
             <div class="container">
                 <!-- Grid Layout: 2 columns -->
                 <div class="grid-layout">
                     <!-- Left Column -->
                     <div class="left-column">
                         <!-- Search Section -->
-                        <section class="card">
+                        <section class="card" aria-labelledby="search-heading" aria-describedby="search-hint">
                             <div class="card-header">
-                                <h2>🔍 Tìm Kiếm Sinh Viên</h2>
+                                <h2 id="search-heading">🔍 Tìm Kiếm Sinh Viên</h2>
+                                <p id="search-hint" class="shortcuts-hint">Ctrl+K: Tìm kiếm · Ctrl+Shift+R: Reset · Ctrl+Shift+T: Theme</p>
                             </div>
                             <div class="card-body">
-                                <input type="text" id="search-input" placeholder="Tìm theo mã, tên hoặc lớp..." class="input" />
-                                <button type="button" class="btn btn-search" id="search-btn">Tìm kiếm</button>
+                                <label for="search-input" class="sr-only">Tìm theo mã, tên hoặc lớp</label>
+                                <input type="text" id="search-input" placeholder="Tìm theo mã, tên hoặc lớp... (Ctrl+K)" class="input" title="Ctrl+K: focus ô tìm kiếm" aria-label="Tìm theo mã, tên hoặc lớp" autocomplete="off" />
+                                <button type="button" class="btn btn-search" id="search-btn" aria-label="Thực hiện tìm kiếm">Tìm kiếm</button>
+                            </div>
+                        </section>
+
+                        <!-- Filter + Sort -->
+                        <section class="card" aria-labelledby="filter-heading">
+                            <div class="card-header">
+                                <h2 id="filter-heading">🔽 Lọc & Sắp xếp</h2>
+                            </div>
+                            <div class="card-body filter-sort-body">
+                                <div class="filter-row">
+                                    <label for="filter-class">Lớp:</label>
+                                    <select id="filter-class" class="input" aria-label="Lọc theo lớp">
+                                        <option value="">Tất cả lớp</option>
+                                    </select>
+                                </div>
+                                <div class="filter-row">
+                                    <label for="filter-score-min">Điểm từ:</label>
+                                    <input type="number" id="filter-score-min" class="input" placeholder="Min" min="0" max="10" step="0.01" aria-label="Điểm tối thiểu" />
+                                </div>
+                                <div class="filter-row">
+                                    <label for="filter-score-max">đến:</label>
+                                    <input type="number" id="filter-score-max" class="input" placeholder="Max" min="0" max="10" step="0.01" aria-label="Điểm tối đa" />
+                                </div>
+                                <div class="filter-row">
+                                    <label for="sort-by">Sắp xếp:</label>
+                                    <select id="sort-by" class="input" aria-label="Sắp xếp danh sách">
+                                        <option value="">-- Chọn --</option>
+                                        <option value="name-asc">Tên A → Z</option>
+                                        <option value="name-desc">Tên Z → A</option>
+                                        <option value="score-asc">Điểm tăng dần</option>
+                                        <option value="score-desc">Điểm giảm dần</option>
+                                    </select>
+                                </div>
+                                <div class="filter-actions">
+                                    <button type="button" class="btn btn-search" id="apply-filter-sort" aria-label="Áp dụng bộ lọc và sắp xếp">Áp dụng</button>
+                                    <button type="button" class="btn btn-secondary" id="reset-filter-btn" title="Ctrl+Shift+R: xóa bộ lọc & tìm kiếm" aria-label="Xóa bộ lọc và tìm kiếm">Reset</button>
+                                </div>
                             </div>
                         </section>
 
                         <!-- Add Student Form -->
-                        <section class="card">
+                        <section class="card" aria-labelledby="form-heading">
                             <div class="card-header">
-                                <h2>➕ Thêm Sinh Viên Mới</h2>
+                                <h2 id="form-heading">➕ Thêm Sinh Viên Mới</h2>
                             </div>
                             <div class="card-body">
-                                <form class="form">
+                                <form class="form" aria-label="Form thêm sinh viên mới">
                                     <div class="input-group">
-                                        <label>Mã sinh viên</label>
-                                        <input type="text" class="input" placeholder="VD: SV001" />
+                                        <label for="input-id">Mã sinh viên</label>
+                                        <input type="text" id="input-id" class="input" placeholder="VD: SV001" aria-required="true" />
                                     </div>
                                     <div class="input-group">
-                                        <label>Họ và tên</label>
-                                        <input type="text" class="input" placeholder="Nhập họ tên" />
+                                        <label for="input-name">Họ và tên</label>
+                                        <input type="text" id="input-name" class="input" placeholder="Nhập họ tên" aria-required="true" />
                                     </div>
                                     <div class="input-group">
-                                        <label>Email</label>
-                                        <input type="email" class="input" placeholder="email@example.com" />
+                                        <label for="input-email">Email</label>
+                                        <input type="email" id="input-email" class="input" placeholder="email@example.com" aria-required="true" />
                                     </div>
                                     <div class="input-group">
-                                        <label>Lớp</label>
-                                        <input type="text" class="input" placeholder="VD: CNTT-K15" />
+                                        <label for="input-class">Lớp</label>
+                                        <input type="text" id="input-class" class="input" placeholder="VD: CNTT-K15" aria-required="true" />
                                     </div>
                                     <div class="input-group">
-                                        <label>Số điện thoại</label>
-                                        <input type="tel" class="input" placeholder="0123456789" />
+                                        <label for="input-score">Điểm</label>
+                                        <input type="number" id="input-score" class="input" placeholder="0–10" min="0" max="10" step="0.01" aria-label="Điểm từ 0 đến 10" />
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Thêm sinh viên</button>
+                                    <div class="input-group">
+                                        <label for="input-phone">Số điện thoại</label>
+                                        <input type="tel" id="input-phone" class="input" placeholder="0123456789" aria-required="true" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" aria-label="Thêm sinh viên vào danh sách">Thêm sinh viên</button>
                                 </form>
                             </div>
                         </section>
@@ -90,20 +134,26 @@
                     <!-- Right Column -->
                     <div class="right-column">
                         <!-- Student List -->
-                        <section class="card student-list-card">
+                        <section class="card student-list-card" aria-labelledby="table-heading">
                             <div class="card-header">
-                                <h2>📋 Danh Sách Sinh Viên</h2>
+                                <h2 id="table-heading">📋 Danh Sách Sinh Viên</h2>
+                                <div class="import-export-actions">
+                                    <input type="file" id="import-json-input" accept=".json,application/json" hidden aria-label="Chọn file JSON để import dữ liệu sinh viên" />
+                                    <label for="import-json-input" class="btn btn-secondary">📥 Import JSON</label>
+                                    <button type="button" class="btn btn-primary" id="export-json-btn" aria-label="Xuất danh sách sinh viên ra file JSON có timestamp">📤 Export JSON (có timestamp)</button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-wrapper">
-                                    <table class="table">
+                                    <table class="table" aria-label="Danh sách sinh viên">
                                         <thead>
                                             <tr>
-                                                <th>STT</th>
-                                                <th>Mã SV</th>
-                                                <th>Họ và tên</th>
-                                                <th>Email</th>
-                                                <th>Lớp</th>
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Mã SV</th>
+                                                <th scope="col">Họ và tên</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Lớp</th>
+                                                <th scope="col">Điểm</th>
                                             </tr>
                                         </thead>
                                         <tbody id="student-list-tbody">
@@ -119,7 +169,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="footer" role="contentinfo">
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-col">
