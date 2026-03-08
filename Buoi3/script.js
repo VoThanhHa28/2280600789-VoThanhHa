@@ -1,4 +1,4 @@
-const STORAGE_KEY = "students";
+const STORAGE_KEY = "students"; //Them conflict
 const THEME_KEY = "theme";
 
 // Lấy dữ liệu từ localStorage
@@ -43,30 +43,19 @@ function renderStudentList(listToRender) {
     tbody.innerHTML = "";
 
     if (list.length === 0) {
-        const tr = document.createElement("tr");
-        tr.innerHTML = '<td colspan="5" style="text-align: center; padding: 30px; color: #999;">Chưa có sinh viên nào</td>';
-        tbody.appendChild(tr);
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#999;">Chưa có sinh viên nào</td></tr>';
         return;
     }
 
-    list.forEach(function (student, index) {
+    list.forEach((student, index) => {
         const tr = document.createElement("tr");
-        tr.innerHTML =
-            "<td>" +
-            (index + 1) +
-            "</td>" +
-            "<td>" +
-            student.id +
-            "</td>" +
-            "<td>" +
-            student.name +
-            "</td>" +
-            "<td>" +
-            student.email +
-            "</td>" +
-            "<td>" +
-            student.className +
-            "</td>";
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.email}</td>
+            <td>${student.className}</td>
+        `;
         tbody.appendChild(tr);
     });
 }
@@ -119,27 +108,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-const form = document.querySelector(".form");
-const tableBody = document.querySelector(".table tbody");
-
-// Hàm render bảng realtime
-function renderTable() {
-    tableBody.innerHTML = "";
-    students.forEach((s, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${s.id}</td>
-            <td>${s.name}</td>
-            <td>${s.email}</td>
-            <td>${s.className}</td>
-        `;
-        tableBody.appendChild(tr);
-    });
+function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 100);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
-// Gọi lần đầu render bảng
-renderTable();
+function showLoading(isLoading) {
+    let loader = document.getElementById("loading");
+    if (!loader) {
+        loader = document.createElement("div");
+        loader.id = "loading";
+        loader.textContent = "Loading...";
+        loader.style.position = "fixed";
+        loader.style.top = "10px";
+        loader.style.right = "10px";
+        loader.style.padding = "10px 20px";
+        loader.style.background = "#000";
+        loader.style.color = "#fff";
+        loader.style.display = "none";
+        document.body.appendChild(loader);
+    }
+    loader.style.display = isLoading ? "block" : "none";
+}
+
+const form = document.querySelector(".form");
+
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -154,9 +154,14 @@ form.addEventListener("submit", function (e) {
     };
 
     // ===== Validate =====
+    // Loading state bật
+    showLoading(true);
+
+    // Validate
     for (let key in student) {
         if (!student[key]) {
-            alert("Không được để trống!");
+            showToast("Không được để trống!", "error");
+            showLoading(false);
             return;
         }
     }
@@ -164,33 +169,40 @@ form.addEventListener("submit", function (e) {
     const nameRegex = /^[A-Za-zÀ-ỹ]+(\s[A-Za-zÀ-ỹ]+)+$/;
     if (!nameRegex.test(student.name)) {
         alert("Họ tên không hợp lệ!");
+        showToast("Họ tên không hợp lệ!", "error");
+        showLoading(false);
         return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(student.email)) {
-        alert("Email không hợp lệ!");
+        showToast("Email không hợp lệ!", "error");
+        showLoading(false);
         return;
     }
 
     const phoneRegex = /^0\d{9}$/;
     if (!phoneRegex.test(student.phone)) {
-        alert("Số điện thoại không hợp lệ!");
+        showToast("Số điện thoại không hợp lệ!", "error");
+        showLoading(false);
         return;
     }
 
     const isDuplicate = students.some(s => s.id === student.id);
     if (isDuplicate) {
-        alert("Mã sinh viên đã tồn tại!");
+        showToast("Mã sinh viên đã tồn tại!", "error");
+        showLoading(false);
         return;
     }
 
-    // ===== Thêm sinh viên =====
+    // Thêm sinh viên + localStorage
     students.push(student);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
 
-    // ===== Render bảng cơ bản =====
-    renderStudentList(); // chỉ render cơ bản, không toast, không realtime fancy
+    // Render bảng
+    renderStudentList();
+    showToast("Thêm sinh viên thành công!", "success");
 
     form.reset();
+    showLoading(false);
 });
