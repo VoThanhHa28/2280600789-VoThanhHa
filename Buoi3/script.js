@@ -150,6 +150,26 @@ function showLoading(isLoading) {
 }
 
 const form = document.querySelector(".form");
+const tableBody = document.querySelector(".table tbody");
+
+// Hàm render bảng realtime
+function renderTable() {
+    tableBody.innerHTML = "";
+    students.forEach((s, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${s.email}</td>
+            <td>${s.className}</td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+
+// Gọi lần đầu render bảng
+renderTable();
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -163,6 +183,7 @@ form.addEventListener("submit", function (e) {
         phone: inputs[4].value.trim(),
     };
 
+    // ===== Validate =====
     // Loading state bật
     showLoading(true);
 
@@ -177,6 +198,7 @@ form.addEventListener("submit", function (e) {
 
     const nameRegex = /^[A-Za-zÀ-ỹ]+(\s[A-Za-zÀ-ỹ]+)+$/;
     if (!nameRegex.test(student.name)) {
+        alert("Họ tên không hợp lệ!");
         showToast("Họ tên không hợp lệ!", "error");
         showLoading(false);
         return;
