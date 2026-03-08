@@ -1,4 +1,4 @@
-const STORAGE_KEY = "students";
+const STORAGE_KEY = "students"; //Them conflict
 const THEME_KEY = "theme";
 
 // Lấy dữ liệu từ localStorage
