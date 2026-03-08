@@ -120,10 +120,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const form = document.querySelector(".form");
+const tableBody = document.querySelector(".table tbody");
+
+// Hàm render bảng realtime
+function renderTable() {
+    tableBody.innerHTML = "";
+    students.forEach((s, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${s.email}</td>
+            <td>${s.className}</td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+
+// Gọi lần đầu render bảng
+renderTable();
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
-
     const inputs = form.querySelectorAll(".input");
 
     const student = {
@@ -134,53 +153,44 @@ form.addEventListener("submit", function (e) {
         phone: inputs[4].value.trim(),
     };
 
-    // ===== 1. KHÔNG ĐƯỢC TRỐNG =====
+    // ===== Validate =====
     for (let key in student) {
         if (!student[key]) {
-            alert("Không được để trống bất kỳ trường nào!");
+            alert("Không được để trống!");
             return;
         }
     }
 
-    // ===== 2. VALIDATE TÊN =====
-    // Chỉ chữ + khoảng trắng, ít nhất 2 từ
     const nameRegex = /^[A-Za-zÀ-ỹ]+(\s[A-Za-zÀ-ỹ]+)+$/;
     if (!nameRegex.test(student.name)) {
-        alert("Họ tên không hợp lệ (phải có ít nhất 2 từ, không chứa số/ký tự đặc biệt)");
+        alert("Họ tên không hợp lệ!");
         return;
     }
 
-    // ===== 3. VALIDATE EMAIL =====
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(student.email)) {
         alert("Email không hợp lệ!");
         return;
     }
 
-    // ===== 4. VALIDATE SỐ ĐIỆN THOẠI =====
-    // Bắt đầu bằng 0, đủ 10 số
     const phoneRegex = /^0\d{9}$/;
     if (!phoneRegex.test(student.phone)) {
-        alert("Số điện thoại không hợp lệ (bắt đầu bằng 0, đủ 10 số)");
+        alert("Số điện thoại không hợp lệ!");
         return;
     }
 
-    // ===== 5. CHECK TRÙNG MÃ SV =====
     const isDuplicate = students.some(s => s.id === student.id);
     if (isDuplicate) {
         alert("Mã sinh viên đã tồn tại!");
         return;
     }
 
-    // ===== ADD =====
+    // ===== Thêm sinh viên =====
     students.push(student);
-
-    // ===== LƯU localStorage =====
     localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
 
-    alert("Thêm sinh viên thành công!");
-    form.reset();
+    // ===== Render bảng cơ bản =====
+    renderStudentList(); // chỉ render cơ bản, không toast, không realtime fancy
 
-    // Cập nhật lại bảng danh sách (giữ kết quả tìm kiếm nếu đang có)
-    runSearch();
+    form.reset();
 });
