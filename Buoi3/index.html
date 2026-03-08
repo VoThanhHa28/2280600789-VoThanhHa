@@ -29,7 +29,7 @@
                     <a href="#" class="nav-link">Danh sách</a>
                     <a href="#" class="nav-link">Thêm mới</a>
                     <a href="#" class="nav-link">Giới thiệu</a>
-                    <button id="theme-toggle" class="theme-toggle" title="Chuyển đổi theme">
+                    <button id="theme-toggle" class="theme-toggle" title="Chuyển đổi theme (Ctrl+Shift+T)">
                         <span class="theme-icon">🌙</span>
                     </button>
                 </nav>
@@ -47,9 +47,10 @@
                         <section class="card">
                             <div class="card-header">
                                 <h2>🔍 Tìm Kiếm Sinh Viên</h2>
+                                <p class="shortcuts-hint">Ctrl+K: Tìm kiếm · Ctrl+Shift+R: Reset · Ctrl+Shift+T: Theme</p>
                             </div>
                             <div class="card-body">
-                                <input type="text" id="search-input" placeholder="Tìm theo mã, tên hoặc lớp..." class="input" />
+                                <input type="text" id="search-input" placeholder="Tìm theo mã, tên hoặc lớp... (Ctrl+K)" class="input" title="Ctrl+K: focus ô tìm kiếm" />
                                 <button type="button" class="btn btn-search" id="search-btn">Tìm kiếm</button>
                             </div>
                         </section>
@@ -84,7 +85,10 @@
                                         <option value="score-desc">Điểm giảm dần</option>
                                     </select>
                                 </div>
-                                <button type="button" class="btn btn-search" id="apply-filter-sort">Áp dụng</button>
+                                <div class="filter-actions">
+                                    <button type="button" class="btn btn-search" id="apply-filter-sort">Áp dụng</button>
+                                    <button type="button" class="btn btn-secondary" id="reset-filter-btn" title="Ctrl+Shift+R: xóa bộ lọc & tìm kiếm">Reset</button>
+                                </div>
                             </div>
                         </section>
 
