@@ -6,7 +6,7 @@ const THEME_KEY = "theme";
 
 let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-// ===== DARK/LIGHT MODE TOGGLE =====
+// ===== DARK/LIGHT MODE TOGGLE =======
 function initTheme() {
     const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
     document.body.classList.toggle("light-mode", savedTheme === "light");
@@ -17,7 +17,7 @@ function toggleTheme() {
     const isLightMode = document.body.classList.contains("light-mode");
     const newTheme = isLightMode ? "dark" : "light";
     
-    document.body.classList.toggle("light-mode", newTheme === "light");
+    document.body.classList.toggle("light-mode", newTheme === "dark");
     localStorage.setItem(THEME_KEY, newTheme);
     updateThemeIcon(newTheme);
 }
