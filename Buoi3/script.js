@@ -43,30 +43,19 @@ function renderStudentList(listToRender) {
     tbody.innerHTML = "";
 
     if (list.length === 0) {
-        const tr = document.createElement("tr");
-        tr.innerHTML = '<td colspan="5" style="text-align: center; padding: 30px; color: #999;">Chưa có sinh viên nào</td>';
-        tbody.appendChild(tr);
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#999;">Chưa có sinh viên nào</td></tr>';
         return;
     }
 
-    list.forEach(function (student, index) {
+    list.forEach((student, index) => {
         const tr = document.createElement("tr");
-        tr.innerHTML =
-            "<td>" +
-            (index + 1) +
-            "</td>" +
-            "<td>" +
-            student.id +
-            "</td>" +
-            "<td>" +
-            student.name +
-            "</td>" +
-            "<td>" +
-            student.email +
-            "</td>" +
-            "<td>" +
-            student.className +
-            "</td>";
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.email}</td>
+            <td>${student.className}</td>
+        `;
         tbody.appendChild(tr);
     });
 }
@@ -150,26 +139,7 @@ function showLoading(isLoading) {
 }
 
 const form = document.querySelector(".form");
-const tableBody = document.querySelector(".table tbody");
 
-// Hàm render bảng realtime
-function renderTable() {
-    tableBody.innerHTML = "";
-    students.forEach((s, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${s.id}</td>
-            <td>${s.name}</td>
-            <td>${s.email}</td>
-            <td>${s.className}</td>
-        `;
-        tableBody.appendChild(tr);
-    });
-}
-
-// Gọi lần đầu render bảng
-renderTable();
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
