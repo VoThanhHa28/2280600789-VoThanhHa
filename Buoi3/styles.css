@@ -291,6 +291,25 @@ body.light-mode .card {
     padding: 25px;
 }
 
+.filter-sort-body .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.filter-sort-body .filter-row label {
+    min-width: 70px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.filter-sort-body .filter-row .input {
+    flex: 1;
+    min-width: 0;
+}
+.filter-sort-body #apply-filter-sort {
+    margin-top: 8px;
+}
+
 /* ===== FORM STYLES ===== */
 .form {
     display: flex;
