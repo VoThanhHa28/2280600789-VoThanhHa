@@ -3,7 +3,14 @@ const THEME_KEY = "theme"; //Thêm comment de conflict
 
 // Lấy dữ liệu từ localStorage
 
-let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+let students = [];
+
+try {
+    students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+} catch (error) {
+    console.warn("LocalStorage corrupted, resetting students data");
+    students = [];
+}
 
 // ===== DARK/LIGHT MODE TOGGLE =======
 function initTheme() {
