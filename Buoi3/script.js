@@ -192,6 +192,44 @@ function runSearch() {
     applyFilterAndSort();
 }
 
+// ===== RESET: Xóa tìm kiếm + lọc + sắp xếp, hiển thị full danh sách =====
+function resetFiltersAndSearch() {
+    var searchInput = document.getElementById("search-input");
+    var filterClass = document.getElementById("filter-class");
+    var filterScoreMin = document.getElementById("filter-score-min");
+    var filterScoreMax = document.getElementById("filter-score-max");
+    var sortBy = document.getElementById("sort-by");
+    if (searchInput) searchInput.value = "";
+    if (filterClass) filterClass.value = "";
+    if (filterScoreMin) filterScoreMin.value = "";
+    if (filterScoreMax) filterScoreMax.value = "";
+    if (sortBy) sortBy.value = "";
+    renderStudentList(students);
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+// Ctrl+K: focus ô tìm kiếm | Ctrl+Shift+R: reset | Ctrl+Shift+T: toggle theme
+function setupKeyboardShortcuts() {
+    document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "k") {
+            e.preventDefault();
+            var searchInput = document.getElementById("search-input");
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.select();
+            }
+        }
+        if (e.ctrlKey && e.shiftKey && e.key === "R") {
+            e.preventDefault();
+            resetFiltersAndSearch();
+        }
+        if (e.ctrlKey && e.shiftKey && e.key === "T") {
+            e.preventDefault();
+            toggleTheme();
+        }
+    });
+}
+
 // Render lần đầu khi load trang
 document.addEventListener("DOMContentLoaded", function () {
     // Khởi tạo theme và cập nhật icon
@@ -199,6 +237,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     refreshFilterClassOptions();
     renderStudentList();
+    setupKeyboardShortcuts();
+
+    // Reset bộ lọc & tìm kiếm
+    var resetBtn = document.getElementById("reset-filter-btn");
+    if (resetBtn) resetBtn.addEventListener("click", resetFiltersAndSearch);
 
     // Lọc + sắp xếp
     const applyBtn = document.getElementById("apply-filter-sort");
