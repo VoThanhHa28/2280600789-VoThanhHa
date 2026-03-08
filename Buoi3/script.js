@@ -1,5 +1,5 @@
 const STORAGE_KEY = "students";
-const THEME_KEY = "theme";
+const THEME_KEY = "theme"; //Thêm comment de conflict
 
 // Lấy dữ liệu từ localStorage
 let students = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
