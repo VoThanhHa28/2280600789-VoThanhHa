@@ -382,6 +382,9 @@ function exportToJsonWithTimestamp() {
 function showToast(message, type = "success") {
     const toast = document.createElement("div");
     toast.className = `toast ${type}`;
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    toast.setAttribute("aria-atomic", "true");
     toast.textContent = message;
     document.body.appendChild(toast);
     setTimeout(() => toast.classList.add("show"), 100);
