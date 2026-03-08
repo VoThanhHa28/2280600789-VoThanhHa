@@ -269,7 +269,115 @@ document.addEventListener("DOMContentLoaded", function () {
     if (themeToggle) {
         themeToggle.addEventListener("click", toggleTheme);
     }
+
+    // Import / Export
+    const importFileInput = document.getElementById("import-json-input");
+    if (importFileInput) {
+        importFileInput.addEventListener("change", function () {
+            const file = this.files && this.files[0];
+            if (file) {
+                importFromJsonFile(file);
+                this.value = "";
+            }
+        });
+    }
+    const exportBtn = document.getElementById("export-json-btn");
+    if (exportBtn) {
+        exportBtn.addEventListener("click", exportToJsonWithTimestamp);
+    }
 });
+
+// ===== VALIDATE STUDENT (dùng cho form + import) =====
+function validateStudent(student, checkDuplicate = true) {
+    if (!student || typeof student !== "object") return { valid: false, error: "Dữ liệu không hợp lệ" };
+    const id = (student.id != null && student.id !== undefined) ? String(student.id).trim() : "";
+    const name = (student.name != null && student.name !== undefined) ? String(student.name).trim() : "";
+    const email = (student.email != null && student.email !== undefined) ? String(student.email).trim() : "";
+    const className = (student.className != null && student.className !== undefined) ? String(student.className).trim() : "";
+    const phone = (student.phone != null && student.phone !== undefined) ? String(student.phone).trim() : "";
+    const score = (student.score != null && student.score !== "") ? String(student.score).trim() : null;
+
+    if (!id) return { valid: false, error: "Mã sinh viên không được trống" };
+    if (!name) return { valid: false, error: "Họ tên không được trống" };
+    if (!email) return { valid: false, error: "Email không được trống" };
+    if (!className) return { valid: false, error: "Lớp không được trống" };
+    if (!phone) return { valid: false, error: "Số điện thoại không được trống" };
+
+    const nameRegex = /^[A-Za-zÀ-ỹ]+(\s[A-Za-zÀ-ỹ]+)+$/;
+    if (!nameRegex.test(name)) return { valid: false, error: "Họ tên không hợp lệ" };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return { valid: false, error: "Email không hợp lệ" };
+    const phoneRegex = /^0\d{9}$/;
+    if (!phoneRegex.test(phone)) return { valid: false, error: "Số điện thoại không hợp lệ" };
+    if (checkDuplicate && students.some(function (s) { return s.id === id; })) {
+        return { valid: false, error: "Mã sinh viên đã tồn tại: " + id };
+    }
+    return {
+        valid: true,
+        data: { id: id, name: name, email: email, className: className, score: score || null, phone: phone }
+    };
+}
+
+// ===== IMPORT JSON - Chỉ thêm dòng hợp lệ =====
+function importFromJsonFile(file) {
+    if (!file || file.type !== "application/json") {
+        showToast("Vui lòng chọn file JSON.", "error");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const raw = e.target.result;
+            const parsed = JSON.parse(raw);
+            const list = Array.isArray(parsed) ? parsed : (parsed.students ? parsed.students : [parsed]);
+            let added = 0, skipped = 0;
+            list.forEach(function (item) {
+                const result = validateStudent(item, true);
+                if (result.valid) {
+                    students.push(result.data);
+                    added++;
+                } else {
+                    skipped++;
+                }
+            });
+            if (added > 0) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+                refreshFilterClassOptions();
+                renderStudentList();
+            }
+            if (added > 0 && skipped === 0) {
+                showToast("Đã import " + added + " sinh viên.", "success");
+            } else if (added > 0 && skipped > 0) {
+                showToast("Đã import " + added + " hợp lệ, bỏ qua " + skipped + " dòng không hợp lệ.", "success");
+            } else if (skipped > 0) {
+                showToast("Không có dòng nào hợp lệ. Đã bỏ qua " + skipped + " dòng.", "error");
+            } else {
+                showToast("File không chứa dữ liệu sinh viên hợp lệ.", "error");
+            }
+        } catch (err) {
+            showToast("File JSON không hợp lệ: " + (err.message || "Lỗi đọc file"), "error");
+        }
+    };
+    reader.readAsText(file, "UTF-8");
+}
+
+// ===== EXPORT JSON - File có timestamp trong tên =====
+function exportToJsonWithTimestamp() {
+    const now = new Date();
+    const pad = function (n) { return n < 10 ? "0" + n : n; };
+    const timestamp =
+        now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate()) +
+        "_" + pad(now.getHours()) + "-" + pad(now.getMinutes()) + "-" + pad(now.getSeconds());
+    const filename = "students_" + timestamp + ".json";
+    const payload = { exportedAt: now.toISOString(), students: students };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast("Đã xuất file " + filename, "success");
+}
 
 function showToast(message, type = "success") {
     const toast = document.createElement("div");
@@ -326,7 +434,6 @@ renderTable();
 form.addEventListener("submit", function (e) {
     e.preventDefault();
     const inputs = form.querySelectorAll(".input");
-
     const student = {
         id: inputs[0].value.trim(),
         name: inputs[1].value.trim(),
@@ -335,51 +442,16 @@ form.addEventListener("submit", function (e) {
         score: inputs[4].value.trim() !== "" ? inputs[4].value.trim() : null,
         phone: inputs[5].value.trim(),
     };
-
-    // ===== Validate =====
-    for (let key in student) {
-        if (!student[key]) {
-            alert("Không được để trống!");
-            return;
-        }
-    }
-
-    const nameRegex = /^[A-Za-zÀ-ỹ]+(\s[A-Za-zÀ-ỹ]+)+$/;
-    if (!nameRegex.test(student.name)) {
-        alert("Họ tên không hợp lệ!");
-        showToast("Họ tên không hợp lệ!", "error");
+    const result = validateStudent(student, true);
+    if (!result.valid) {
+        showToast(result.error, "error");
         showLoading(false);
         return;
     }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(student.email)) {
-        showToast("Email không hợp lệ!", "error");
-        showLoading(false);
-        return;
-    }
-
-    const phoneRegex = /^0\d{9}$/;
-    if (!phoneRegex.test(student.phone)) {
-        showToast("Số điện thoại không hợp lệ!", "error");
-        showLoading(false);
-        return;
-    }
-
-    const isDuplicate = students.some(s => s.id === student.id);
-    if (isDuplicate) {
-        showToast("Mã sinh viên đã tồn tại!", "error");
-        showLoading(false);
-        return;
-    }
-
-    // Thêm sinh viên + localStorage
-    students.push(student);
+    students.push(result.data);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
-
-    // ===== Render bảng cơ bản =====
-    renderStudentList(); // chỉ render cơ bản, không toast, không realtime fancy
-
+    renderStudentList();
+    refreshFilterClassOptions();
     form.reset();
     showLoading(false);
 });
