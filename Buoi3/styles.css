@@ -280,6 +280,21 @@ body.light-mode .card {
     background: linear-gradient(135deg, #ff4500 0%, #ff8c00 100%);
     color: white;
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card-header .import-export-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.card-header .import-export-actions label {
+    cursor: pointer;
+    margin: 0;
 }
 
 .card-header h2 {
