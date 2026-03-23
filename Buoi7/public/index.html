@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Demo - BaiTap7</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CI/CD Pipeline Demo</h1>
+            <p class="subtitle">BaiTap7 - CCMTPTPM</p>
+        </header>
+
+        <main>
+            <section class="info-card">
+                <h2>Pipeline Status</h2>
+                <div class="status-badge passed">
+                    <span class="dot"></span>
+                    PASSED
+                </div>
+                <p class="desc">Mỗi lần push code lên branch <code>main</code>, pipeline sẽ tự động chạy và deploy lên GitLab Pages.</p>
+            </section>
+
+            <section class="info-card">
+                <h2>Khái niệm CI/CD</h2>
+                <div class="concept-grid">
+                    <div class="concept-item">
+                        <h3>CI - Continuous Integration</h3>
+                        <p>Tự động build và test code mỗi khi có thay đổi. Giúp phát hiện lỗi sớm.</p>
+                        <ul>
+                            <li>Automatically build on every push</li>
+                            <li>Run automated tests</li>
+                            <li>Code quality checks</li>
+                        </ul>
+                    </div>
+                    <div class="concept-item">
+                        <h3>CD - Continuous Deployment</h3>
+                        <p>Tự động deploy phiên bản mới lên môi trường staging/production sau khi CI pass.</p>
+                        <ul>
+                            <li>Automatic deployment to hosting</li>
+                            <li>Zero-downtime releases</li>
+                            <li>Rollback capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <h2>Các bước thực hiện</h2>
+                <ol class="step-list">
+                    <li>
+                        <strong>Commit & Push</strong>
+                        <p>Developer push code lên GitLab repository.</p>
+                    </li>
+                    <li>
+                        <strong>Pipeline Triggered</strong>
+                        <p>GitLab CI tự động kích hoạt pipeline dựa trên <code>.gitlab-ci.yml</code>.</p>
+                    </li>
+                    <li>
+                        <strong>Run Jobs</strong>
+                        <p>Runner thực thi các jobs: build, test, deploy theo thứ tự stages.</p>
+                    </li>
+                    <li>
+                        <strong>Deploy to Pages</strong>
+                        <p>Nếu tất cả jobs thành công, artifacts được deploy lên GitLab Pages.</p>
+                    </li>
+                    <li>
+                        <strong>Live Site</strong>
+                        <p>Website được cập nhật tự động tại URL: <code>https://[username].gitlab.io/[project-name]/</code></p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="info-card">
+                <h2>Truy cập CI/CD Pipeline</h2>
+                <div class="access-guide">
+                    <div class="access-item">
+                        <span class="label">Xem Pipeline:</span>
+                        <code>Repository → CI/CD → Pipelines</code>
+                    </div>
+                    <div class="access-item">
+                        <span class="label">Xem Jobs:</span>
+                        <code>Repository → CI/CD → Jobs</code>
+                    </div>
+                    <div class="access-item">
+                        <span class="label">Xem Pipeline Editor:</span>
+                        <code>Repository → CI/CD → Editor</code>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <h2>GitLab CI/CD Concepts</h2>
+                <div class="concepts-table">
+                    <div class="concept-row">
+                        <span class="term">.gitlab-ci.yml</span>
+                        <span class="definition">File cấu hình pipeline bằng YAML, đặt ở root của repository.</span>
+                    </div>
+                    <div class="concept-row">
+                        <span class="term">Pipeline</span>
+                        <span class="definition">Tập hợp các jobs được chạy theo thứ tự stages.</span>
+                    </div>
+                    <div class="concept-row">
+                        <span class="term">Stage</span>
+                        <span class="definition">Nhóm các jobs chạy cùng lúc (VD: build, test, deploy).</span>
+                    </div>
+                    <div class="concept-row">
+                        <span class="term">Job</span>
+                        <span class="definition">Đơn vị nhỏ nhất trong pipeline, chứa các lệnh script thực thi.</span>
+                    </div>
+                    <div class="concept-row">
+                        <span class="term">Runner</span>
+                        <span class="definition">Server thực thi các jobs. GitLab.com cung cấp shared runners miễn phí.</span>
+                    </div>
+                    <div class="concept-row">
+                        <span class="term">Artifacts</span>
+                        <span class="definition">Các file được tạo ra bởi jobs, có thể chia sẻ giữa các stages/jobs.</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-card timestamp-section">
+                <h2>Thông tin Deploy</h2>
+                <div class="timestamp-info">
+                    <p>Last updated: <span id="timestamp">-</span></p>
+                    <p>Commit: <span id="commit-hash">-</span></p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>BaiTap7 - Continuous Integration &amp; Continuous Deployment</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
