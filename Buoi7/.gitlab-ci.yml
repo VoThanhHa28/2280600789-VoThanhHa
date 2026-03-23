@@ -4,6 +4,8 @@ stages:
 pages:
   stage: deploy
   script:
+    - mkdir public
+    - cp -r Buoi7/* public/
     - echo "Deploying to GitLab Pages..."
     - echo "Pipeline executed at: $(date)"
   artifacts:
