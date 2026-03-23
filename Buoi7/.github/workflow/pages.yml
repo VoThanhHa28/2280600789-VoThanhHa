@@ -1,18 +1,25 @@
-image: alpine:latest
+name: Deploy HTML/CSS/JS to GitHub Pages
 
-stages:
-  - deploy
+on:
+  push:
+    branches:
+      - main  # branch bạn muốn deploy
 
-pages:
-  stage: deploy
-  script:
-    - mkdir public
-    - cp -r Buoi7/* public/
-    - echo "Deploying to GitLab Pages..."
-    - echo "Pipeline executed at: $(date)"
-  artifacts:
-    paths:
-      - public
-    expire_in: 1 day
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Copy Buoi7 to GitHub Pages folder
+        run: |
+          mkdir -p public
+          cp -r Buoi7/* public/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
