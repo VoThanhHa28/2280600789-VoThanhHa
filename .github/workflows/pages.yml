@@ -16,7 +16,7 @@ jobs:
       - name: Copy Buoi7 to GitHub Pages folder
         run: |
           mkdir -p public
-          cp -r Buoi7/* public/
+          cp -r Buoi7/public/* public/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
